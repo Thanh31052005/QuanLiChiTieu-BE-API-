@@ -90,14 +90,14 @@ class CreateJarRequest(BaseModel):
     jar_name:    str   = Field(..., min_length=1, max_length=100)
     description: Optional[str] = None
     budget:      float = Field(0, ge=0)
-    jar_type:    int   = Field(1, ge=1, le=2)   # 1=Personal, 2=Shared
+    jar_type:    int   = Field(1, ge=1, le=3)   # 1=Personal, 2=Shared, 3=Savings
 
 
 class UpdateJarRequest(BaseModel):
     jar_name:    Optional[str]   = Field(None, min_length=1, max_length=100)
     description: Optional[str]   = None
     budget:      Optional[float] = Field(None, ge=0)
-    jar_type:    Optional[int]   = Field(None, ge=1, le=2)
+    jar_type:    Optional[int]   = Field(None, ge=1, le=3)
 
 
 # ═══════════════════════════════════════════════════════════════════
