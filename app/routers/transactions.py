@@ -41,6 +41,7 @@ def _map(t: Transaction) -> TransactionResponse:
         transaction_date  = t.TransactionDate,
         category_name     = t.category.CategoryName if t.category else None,
         jar_name          = t.jar.JarName          if t.jar      else None,
+        full_name         = t.user.FullName        if t.user     else None,
     )
 
 

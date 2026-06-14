@@ -139,6 +139,7 @@ class TransactionResponse(BaseModel):
     # Join data
     category_name:    Optional[str] = None
     jar_name:         Optional[str] = None
+    full_name:        Optional[str] = None
 
     class Config:
         from_attributes = True
