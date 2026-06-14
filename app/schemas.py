@@ -77,6 +77,8 @@ class JarResponse(BaseModel):
     created_at:         datetime
     # Tính toán từ Transactions
     spent_amount:       float = 0.0
+    income_amount:      float = 0.0
+    balance:            float = 0.0
     remaining:          float = 0.0
     usage_percent:      float = 0.0
 

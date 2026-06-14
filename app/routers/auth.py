@@ -72,6 +72,20 @@ def update_me(
     return _map_user(current_user)
 
 
+
+# ── Tìm user theo email (dùng để mời vào hũ) ────────────────────────────────
+@router.get("/users", response_model=UserResponse)
+def find_user_by_email(
+    email: str,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    user = db.query(User).filter(User.Email == email).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Không tìm thấy người dùng với email này")
+    return _map_user(user)
+
+
 # ── Helpers ───────────────────────────────────────────────────────────────────
 def _map_user(u: User) -> UserResponse:
     return UserResponse(

@@ -38,8 +38,18 @@ def _spent(jar_id: str, db: Session) -> float:
     return float(result or 0)
 
 
+def _income(jar_id: str, db: Session) -> float:
+    result = db.query(func.sum(Transaction.Amount)).filter(
+        Transaction.JarId == jar_id,
+        Transaction.TransactionType == True,
+    ).scalar()
+    return float(result or 0)
+
+
 def _map_jar(jar: Jar, db: Session) -> JarResponse:
     spent   = _spent(jar.JarId, db)
+    income  = _income(jar.JarId, db)
+    balance = income - spent
     budget  = float(jar.Budget or 0)
     remaining = budget - spent
     pct     = (spent / budget) if budget > 0 else 0.0
@@ -52,6 +62,8 @@ def _map_jar(jar: Jar, db: Session) -> JarResponse:
         created_by_user_id = jar.CreatedByUserId,
         created_at         = jar.CreatedAt,
         spent_amount       = spent,
+        income_amount      = income,
+        balance            = balance,
         remaining          = remaining,
         usage_percent      = min(pct, 1.0),
     )
