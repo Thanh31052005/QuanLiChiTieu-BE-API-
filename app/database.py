@@ -21,16 +21,6 @@ else:
 
 engine = create_engine(conn_str, fast_executemany=True, echo=False)
 
-# Sửa lỗi lưu tiếng Việt bị biến thành dấu chấm hỏi (Unicode) cho pyodbc
-from sqlalchemy import event
-@event.listens_for(engine, "connect")
-def _set_unicode(dbapi_connection, connection_record):
-    import pyodbc
-    if isinstance(dbapi_connection, pyodbc.Connection):
-        dbapi_connection.setdecoding(pyodbc.SQL_CHAR, encoding='utf-8')
-        dbapi_connection.setdecoding(pyodbc.SQL_WCHAR, encoding='utf-8')
-        dbapi_connection.setencoding(encoding='utf-8')
-
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
